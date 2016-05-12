@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -38,10 +39,14 @@ public class SmokeDataRepositoryTest {
 	public void findBySiteIdAndTime() throws ParseException{
 		Pageable pageable = new PageRequest(0, 10, Direction.ASC, "id");
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-		Date start = format.parse("2003-01-06 00:00:00");
+		Date start = format.parse("1003-01-06 00:00:00");
 		Date end = format.parse("2003-11-04 00:00:00");
-		List<SmokeData> smokeDatas = smokeDataRepository.findBySiteIdAndTime("0103", start, end, pageable);
-		String msg = JsonTools.createJsonString("SmokeData", smokeDatas);
-		System.out.println(msg);
+		Page<SmokeData> page = smokeDataRepository.findBySiteIdAndTime("0103", start, end, pageable);
+		
+		List<SmokeData> results = page.getContent();
+		
+		for(SmokeData smokeData : results){
+			System.out.println(smokeData.toString());
+		}
 	}
 }

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,8 @@ public class SmokeDataPersistenceImpl implements SmokeDataPersistence {
 	@Override
 	public List<SmokeData> findBySiteIdAndTime(String siteId, Date start, Date end, Pageable pageable) {
 		logger.info("[SmokeDataPersistenceImpl] findBySiteIdAndTime 传入参数 siteId : {}, start : {}, end : {}", siteId, start, end);
-		List<SmokeData> lists = smokeDataRepository.findBySiteIdAndTime(siteId, start, end, pageable);
+		Page<SmokeData> page = smokeDataRepository.findBySiteIdAndTime(siteId, start, end, pageable);
+		List<SmokeData> lists = page.getContent();
 		logger.info("[SmokeDataPersistenceImpl] findBySiteIdAndTime 传入参数 siteId : {}, start : {}, end : {}, 查询结果List<SmokeData>为: {}", siteId, start, end, lists);
 		
 		return lists;
