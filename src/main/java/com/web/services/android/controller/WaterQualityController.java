@@ -1,5 +1,6 @@
 package com.web.services.android.controller;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -33,7 +34,8 @@ public class WaterQualityController {
 		logger.info("[WaterQualityController] getSamplingSite() 请求获得水质采样地点。");
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_XML);
+		MediaType mediaType = new MediaType("text", "html", Charset.forName("UTF-8"));
+		headers.setContentType(mediaType);
 
 		List<String> sites = waterService.findAllSit();
 		String result = JsonTools.createJsonString("SamplingSites", sites);
@@ -48,7 +50,8 @@ public class WaterQualityController {
 		logger.info("[WaterQualityController] getPollutionData() 通过参数 site: {}, startTime: {}, endTime: {}, page: {} 获取水质污染数据。", site, startTime, endTime, page);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_XML);
+		MediaType mediaType = new MediaType("text", "html", Charset.forName("UTF-8"));
+		headers.setContentType(mediaType);
 
 		List<WaterData> list = waterService.findByQuery(site, startTime, endTime, page);
 		String result = JsonTools.createJsonString("WaterDatas", list);
